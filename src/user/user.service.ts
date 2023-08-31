@@ -13,6 +13,10 @@ export class UserService {
       password: await bcrypt.hash(createUserDto.password, 10),
     };
 
+    const userExist = await this.findbyEmail(createUserDto.email);
+
+    if (userExist) throw new Error('Este e-mail já existe');
+
     const createdUser = await this.prisma.user.create({
       data,
     });
