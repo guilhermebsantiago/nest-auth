@@ -7,6 +7,15 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
+  async findAll() {
+    try {
+      const users = await this.prisma.user.findMany();
+      return users;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   async create(createUserDto: CreateUserDto) {
     const data = {
       ...createUserDto,

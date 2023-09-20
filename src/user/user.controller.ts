@@ -1,8 +1,10 @@
 // eslint-disable-next-line prettier/prettier
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { Roles } from 'src/roles/decorators/role.decorator';
+import { Role } from 'src/roles/enums/role.enum';
 
 @Controller('user')
 export class UserController {
@@ -14,11 +16,13 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
-  /* @Get()
+  @Roles(Role.Admin)
+  @Get()
   findAll() {
     return this.userService.findAll();
   }
 
+  /*
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
