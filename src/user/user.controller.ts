@@ -5,19 +5,21 @@ import { UserService } from './user.service';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 import { Roles } from 'src/roles/decorators/role.decorator';
 import { Role } from 'src/roles/enums/role.enum';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @IsPublic()
-  @Post()
+  @Post('create')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Roles(Role.Admin)
-  @Get()
+  @Get('all')
   findAll() {
     return this.userService.findAll();
   }
